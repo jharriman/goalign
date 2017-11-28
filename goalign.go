@@ -126,6 +126,9 @@ func alignFieldTags(fields []*ast.Field) error {
 
 	// Pad all the strings according to the max values.
 	for i, field := range fields {
+		if field.Tag == nil {
+			continue
+		}
 		// Keep track of the visited number of tags in order to bail early.
 		visitedTags := 0
 		tagBuffer := bytes.NewBufferString("`")
