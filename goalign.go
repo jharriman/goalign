@@ -74,7 +74,8 @@ func getWalker(dst io.Writer) filepath.WalkFunc {
 					continue
 				}
 				structType, ok := typeSpec.Type.(*ast.StructType)
-				if !ok {
+				// TODO: Figure out how fields can be empty.
+				if !ok || structType.Fields == nil {
 					continue
 				}
 				alignFieldTags(structType.Fields.List)
