@@ -101,6 +101,9 @@ func alignFieldTags(fields []*ast.Field) error {
 
 	// Iterate once through to find all the max values.
 	for i, field := range fields {
+		if field.Tag == nil {
+			continue
+		}
 		tags := strings.Fields(strings.Trim(field.Tag.Value, "`"))
 		namesToValues := make(map[string]string)
 		for _, tag := range tags {
