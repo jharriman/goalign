@@ -34,16 +34,20 @@ func alignMain() error {
 }
 
 func walk(filename string, write bool) error {
-	directory, filename := path.Split(filename)
+	directory, basename := path.Split(filename)
 	var root string
-	if directory != "" && filename == "..." {
+	if directory != "" && basename == "..." {
 		root = directory
-	} else if directory == "" && filename == "." {
+	} else if directory == "" && basename == "." {
 		root = "."
 	} else {
 		root = filename
 	}
-	return filepath.Walk(root, getWalker(nil))
+	var dst io.Writer
+	if !write {
+		dst = os.Stdout
+	}
+	return filepath.Walk(root, getWalker(dst))
 }
 
 func getWalker(dst io.Writer) filepath.WalkFunc {
